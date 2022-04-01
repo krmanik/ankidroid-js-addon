@@ -1,0 +1,25 @@
+{
+  "name": "ankidroid-js-addon-button-card-count",
+  "addonTitle": "Card Counts",
+  "version": "1.0.3",
+  "ankidroidJsApi": "0.0.1",
+  "addonType": "reviewer",
+  "description": "Add custom button and card count using js api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krmanik/Anki-Custom-Card-Layout.git"
+  },
+  "keywords": [
+    "ankidroid-js-addon"
+  ],
+  "author": {"name":"krmanik", "email": "infinyte01@gmail.com", "url":"https://krmanik.github.io"},
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krmanik/Anki-Custom-Card-Layout/issues"
+  },
+  "homepage": "https://github.com/krmanik/Anki-Custom-Card-Layout#readme"
+}
