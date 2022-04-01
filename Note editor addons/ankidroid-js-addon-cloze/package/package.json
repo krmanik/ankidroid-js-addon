@@ -1,0 +1,26 @@
+{
+  "name": "ankidroid-js-addon-cloze",
+  "addonTitle": "Cloze",
+  "icon": "[ ]",
+  "version": "1.0.8",
+  "ankidroidJsApi": "0.0.1",
+  "addonType":"note-editor",
+  "description": "Create cloze from list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krmanik/Anki-Custom-Card-Layout.git"
+  },
+  "keywords": [
+    "ankidroid-js-addon"
+  ],
+  "author": {"name":"krmanik", "email": "infinyte01@gmail.com", "url":"https://krmanik.github.io"},
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krmanik/Anki-Custom-Card-Layout/issues"
+  },
+  "homepage": "https://github.com/krmanik/Anki-Custom-Card-Layout#readme"
+}

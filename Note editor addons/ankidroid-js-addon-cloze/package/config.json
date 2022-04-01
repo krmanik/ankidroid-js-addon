@@ -1,0 +1,9 @@
+{
+    "before": "1",
+    "prompt": "1",
+    "after": "0",
+    "no_cues_first": "n",
+    "no_cues_last": "n",
+    "gradual_build": "n",
+    "full_cloze": "n"
+}

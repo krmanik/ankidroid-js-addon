@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config</title>
+</head>
+
+<body>
+    <style>
+        .pop-up {
+            background-color: #f3f3f3;
+            text-align: center;
+            z-index: 9999;
+            padding: 6px;
+        }
+
+        .settings-button {
+            padding: 4px;
+            margin: 2px;
+            background: #4CA;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            display: inline-block;
+            width: 52px;
+        }
+
+        .option-checkbox {
+            margin: 2px 16px 6px;
+            text-align: left;
+        }
+
+        .settings-input-label {
+            font-size: 20px;
+            margin: 8px 14px 4px;
+            text-align: left;
+            color: #444444;
+        }
+
+        .settings-input {
+            width: 90%;
+            font-size: 20px;
+            padding: 3px;
+            color: #818181;
+        }
+    </style>
+
+    <!-- Settings Form -->
+    <div id="settings-sideNav" class="pop-up">
+
+        <div class="input-note">
+            <h3>Settings</h3>
+        </div>
+
+        <div class="settings-input-label">
+            <label for="contextBefore">Context Before</label>
+        </div>
+        <div>
+            <input type="number" id="contextBefore" name="contextBefore" class="settings-input" min="0">
+        </div>
+
+        <br>
+        <div class="settings-input-label">
+            <label for="clozePrompts">Cloze Prompts</label>
+        </div>
+        <div>
+            <input type="number" id="clozePrompts" name="clozePrompts" class="settings-input" min="1">
+        </div>
+
+
+        <br>
+        <div class="settings-input-label">
+            <label for="contextAfter">Context After</label>
+        </div>
+        <div>
+            <input type="number" id="contextAfter" name="contextAfter" class="settings-input" min="0">
+        </div>
+
+        <br>
+        <div class="option-checkbox">
+            <input type="checkbox" id="opt_no_cues_first" name="opt_no_cues_first" value="n">
+            <label for="opt_no_cues_first">No cues for first item</label>
+        </div>
+        <div class="option-checkbox">
+            <input type="checkbox" id="opt_no_cues_last" name="opt_no_cues_last" value="n">
+            <label for="opt_no_cues_last">No cues for last item</label>
+        </div>
+        <div class="option-checkbox">
+            <input type="checkbox" id="opt_gradual" name="opt_gradual" value="n">
+            <label for="opt_gradual">Gradual build up/-down</label>
+        </div>
+        <div class="option-checkbox">
+            <input type="checkbox" id="opt_dont_gen" name="opt_dont_gen" value="n">
+            <label for="opt_dont_gen">Don't generate full cloze</label>
+        </div>
+        <br>
+        <div>
+            <div class="settings-button" onclick="changeSettings();">Save</div>
+            <div class="settings-button" style="background-color: #ed7989;" onclick="ConfigEditor.close();">Close</div>
+        </div>
+
+    </div>
+
+    <script>
+        window.onload = function() {
+            setConfig();
+        }
+
+
+        function setConfig() {
+            // Read config using AnkiDroid JS Interface
+            var configJson = JSON.parse(ConfigEditor.read());
+
+            document.getElementById("contextBefore").value = configJson["before"];
+            document.getElementById("clozePrompts").value = configJson["prompt"];
+            document.getElementById("contextAfter").value = configJson["after"];
+
+            // No cues for first item
+            if (configJson["no_cues_first"] == "y") {
+                document.getElementById("opt_no_cues_first").checked =  true
+            } else {
+                document.getElementById("opt_no_cues_first").checked = false
+            }
+
+            // No cues for last item
+            if (configJson["no_cues_last"] == "y") {
+                document.getElementById("opt_no_cues_last").checked =  true
+            } else {
+                document.getElementById("opt_no_cues_last").checked = false
+            }
+
+            // Gradual build up/-down
+            if (configJson["gradual_build"] == "y") {
+                document.getElementById("opt_gradual").checked =  true
+            } else {
+                document.getElementById("opt_gradual").checked = false
+            }
+
+            // Don't generate full cloze
+            if (configJson["full_cloze"] == "y") {
+                document.getElementById("opt_dont_gen").checked =  true
+            } else {
+                document.getElementById("opt_dont_gen").checked = false
+            }
+        }
+
+
+        function changeSettings() {
+            var cBef = document.getElementById("contextBefore").value;
+            var cProm = document.getElementById("clozePrompts").value;
+            var cAft = document.getElementById("contextAfter").value;
+
+            var cueFirst = "n";
+            var cueLast = "n";
+            var gradBuild = "n";
+            var dontGenFullCloze = "n";
+
+            // No cues for first item
+            if (document.getElementById("opt_no_cues_first").checked) {
+                cueFirst = "y";
+            } else {
+                cueFirst = "n";
+            }
+
+            // No cues for last item
+            if (document.getElementById("opt_no_cues_last").checked) {
+                cueLast = "y";
+            } else {
+                cueLast = "n";
+            }
+
+            // Gradual build up/-down
+            if (document.getElementById("opt_gradual").checked) {
+                gradBuild = "y";
+            } else {
+                gradBuild = "n";
+            }
+
+            // Don't generate full cloze
+            if (document.getElementById("opt_dont_gen").checked) {
+                dontGenFullCloze = "y";
+            } else {
+                dontGenFullCloze = "n";
+            }
+
+            jsSetOpts = cBef + "," + cProm + "," + cAft + " | " + cueFirst + "," + cueLast + "," + gradBuild + "," + dontGenFullCloze;
+
+            var configJson = {};
+
+            configJson["before"] = cBef;
+            configJson["prompt"] =  cProm;
+            configJson["after"] =  cAft;
+            configJson["no_cues_first"] =  cueFirst;
+            configJson["no_cues_last"] =  cueLast;
+            configJson["gradual_build"] =  gradBuild;
+            configJson["full_cloze"] =  dontGenFullCloze;
+
+            // call AnkiDroid JavaScript Interface to save data to config.json
+            if (ConfigEditor.save(JSON.stringify(configJson))) {
+                ConfigEditor.toast("Config saved");
+            } else {
+                ConfigEditor.toast("Failed to save config data");
+            }
+        }
+    </script>
+</body>
+
+</html>
