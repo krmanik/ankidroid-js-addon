@@ -1,0 +1,26 @@
+{
+  "name": "ankidroid-js-addon-cedict",
+  "addonTitle": "CC-EDICT",
+  "icon": "c",
+  "version": "1.0.1",
+  "ankidroidJsApi": "0.0.1",
+  "addonType":"note-editor",
+  "description": "Get meaning for selected Hanzi and add to fields",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/krmanik/ankidroid-js-addon.git"
+  },
+  "keywords": [
+    "ankidroid-js-addon"
+  ],
+  "author": {"name":"krmanik", "email": "infinyte01@gmail.com", "url":"https://krmanik.github.io"},
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/krmanik/ankidroid-js-addon/issues"
+  },
+  "homepage": "https://github.com/krmanik/ankidroid-js-addon#readme"
+}

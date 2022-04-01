@@ -1,0 +1,11 @@
+{
+    "simplified": "0",
+    "traditional": "1",
+    "pinyin": "2",
+    "definitions": "3",
+
+    "add_simplified": "y",
+    "add_traditional": "y",
+    "add_pinyin": "y",
+    "add_definitions": "y"
+}

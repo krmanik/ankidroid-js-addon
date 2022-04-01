@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Config</title>
+</head>
+
+<body>
+    <style>
+        .pop-up {
+            background-color: #f3f3f3;
+            text-align: center;
+            z-index: 9999;
+            padding: 6px;
+        }
+
+        .settings-button {
+            padding: 4px;
+            margin: 2px;
+            background: #4CA;
+            color: white;
+            font-size: 16px;
+            border-radius: 8px;
+            font-family: monospace;
+            display: inline-block;
+            width: 52px;
+        }
+
+        .option-checkbox {
+            margin: 2px 16px 6px;
+            text-align: left;
+        }
+
+        .settings-input-label {
+            font-size: 20px;
+            margin: 8px 14px 4px;
+            text-align: left;
+            color: #444444;
+        }
+
+        .settings-input {
+            width: 90%;
+            font-size: 20px;
+            padding: 3px;
+            color: #818181;
+        }
+    </style>
+
+    <!-- Settings Form -->
+    <div id="settings-sideNav" class="pop-up">
+
+        <div class="input-note">
+            <h3>Enter field number</h3>
+        </div>
+
+        <div class="settings-input-label">
+            <label for="simplified">Simplified</label>
+        </div>
+        <div>
+            <input type="number" id="simplified" name="simplified" class="settings-input" min="0">
+        </div>
+
+        <br>
+        <div class="settings-input-label">
+            <label for="traditional">Traditional</label>
+        </div>
+        <div>
+            <input type="number" id="traditional" name="traditional" class="settings-input" min="0">
+        </div>
+
+
+        <br>
+        <div class="settings-input-label">
+            <label for="pinyin">Pinyin</label>
+        </div>
+        <div>
+            <input type="number" id="pinyin" name="pinyin" class="settings-input" min="0">
+        </div>
+
+        <br>
+        <div class="settings-input-label">
+            <label for="definitions">Definitions</label>
+        </div>
+        <div>
+            <input type="number" id="definitions" name="definitions" class="settings-input" min="0">
+        </div>
+
+        <br>
+
+        <h3>Add following to fields</h3>
+
+        <div class="option-checkbox">
+            <input type="checkbox" id="add_simplified" name="simplified" value="n">
+            <label for="simplified">Simplified</label>
+        </div>
+        <div class="option-checkbox">
+            <input type="checkbox" id="add_traditional" name="traditional" value="n">
+            <label for="traditional">Traditional</label>
+        </div>
+        <div class="option-checkbox">
+            <input type="checkbox" id="add_pinyin" name="pinyin" value="n">
+            <label for="pinyin">Pinyin</label>
+        </div>
+        <div class="option-checkbox">
+            <input type="checkbox" id="add_definitions" name="definitions" value="n">
+            <label for="definitions">Definitions</label>
+        </div>
+        <br>
+
+        <div>
+            <div class="settings-button" onclick="changeSettings();">Save</div>
+            <div class="settings-button" style="background-color: #ed7989;" onclick="ConfigEditor.close();">Close</div>
+        </div>
+
+    </div>
+
+    <script>
+        window.onload = function() {
+            setConfig();
+        }
+
+
+        function setConfig() {
+            // Read config using AnkiDroid JS Interface
+            var configJson = JSON.parse(ConfigEditor.read());
+
+            document.getElementById("simplified").value = configJson["simplified"];
+            document.getElementById("traditional").value = configJson["traditional"];
+            document.getElementById("pinyin").value = configJson["pinyin"];
+            document.getElementById("definitions").value = configJson["definitions"];
+
+            // Add simplified to fields
+            if (configJson["add_simplified"] == "y") {
+                document.getElementById("add_simplified").checked =  true
+            } else {
+                document.getElementById("add_simplified").checked = false
+            }
+
+            // Add traditional to fields
+            if (configJson["add_traditional"] == "y") {
+                document.getElementById("add_traditional").checked =  true
+            } else {
+                document.getElementById("add_traditional").checked = false
+            }
+
+            // Add pinyin to fields
+            if (configJson["add_pinyin"] == "y") {
+                document.getElementById("add_pinyin").checked =  true
+            } else {
+                document.getElementById("add_pinyin").checked = false
+            }
+
+            // Add definitions to fields
+            if (configJson["add_definitions"] == "y") {
+                document.getElementById("add_definitions").checked =  true
+            } else {
+                document.getElementById("add_definitions").checked = false
+            }
+        }
+
+
+        function changeSettings() {
+            var ch_sim = document.getElementById("simplified").value
+            var ch_trad = document.getElementById("traditional").value
+            var ch_pin = document.getElementById("pinyin").value
+            var ch_mean = document.getElementById("definitions").value
+
+            var add_sim = "y";
+            var add_trad = "y";
+            var add_pin = "y";
+            var add_mean = "y";
+
+            // No cues for first item
+            if (document.getElementById("add_simplified").checked) {
+                add_sim = "y";
+            } else {
+                add_sim = "n";
+            }
+
+            // No cues for last item
+            if (document.getElementById("add_traditional").checked) {
+                add_trad = "y";
+            } else {
+                add_trad = "n";
+            }
+
+            // Gradual build up/-down
+            if (document.getElementById("add_pinyin").checked) {
+                add_pin = "y";
+            } else {
+                add_pin = "n";
+            }
+
+            // Don't generate full cloze
+            if (document.getElementById("add_definitions").checked) {
+                add_mean = "y";
+            } else {
+                add_mean = "n";
+            }
+
+            var configJson = {};
+
+            configJson["simplified"] = ch_sim
+            configJson["traditional"] = ch_trad
+            configJson["pinyin"] = ch_pin
+            configJson["definitions"] = ch_mean
+
+            configJson["add_simplified"] =  add_sim;
+            configJson["add_traditional"] =  add_trad;
+            configJson["add_pinyin"] =  add_pin;
+            configJson["add_definitions"] =  add_mean;
+
+            // call AnkiDroid JavaScript Interface to save data to config.json
+            if (ConfigEditor.save(JSON.stringify(configJson))) {
+                ConfigEditor.toast("Config saved");
+            } else {
+                ConfigEditor.toast("Failed to save config data");
+            }
+        }
+    </script>
+</body>
+
+</html>
